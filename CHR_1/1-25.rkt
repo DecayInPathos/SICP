@@ -1,0 +1,33 @@
+#lang sicp
+(define (square x) (* x x))
+(define (fast-expt-iter n b a)
+        (cond ((= n 0) a)
+              ((= (remainder n 2) 0) (fast-expt-iter (/ n 2) (* b b) a))
+              (else (fast-expt-iter (- n 1) b (* a b)))))
+(define (fast-expt n b)(fast-expt-iter n b 1))
+(define (expmod base exp m)
+        (remainder (expt base exp) m))
+(define (fermat-test n)
+        (define (try-it a)
+                (= (expmod a n n) a))
+        (try-it (+ 1 (random (- n 1)))))
+(define (fast-prime? n times)
+        (cond ((= times 0) #t)
+              ((fermat-test n) (fast-prime? n (- times 1)))
+              (else #f)))
+
+(define (report-prime elapsed-time)
+        (display"***")
+        (display elapsed-time))
+(define (start-prime-test n start-time)
+        (if ( fast-prime? n 100)
+            (report-prime (- (runtime) start-time))
+            (display "XXX")))
+(define (timed-prime-test n)
+        (newline)
+        (display n)
+        (start-prime-test n (runtime)))
+
+(timed-prime-test 100003)
+;并不能很好的应用
+;每一步取模让中间的数字保持极小，计算速度快很多。如果每一步不取模，计算极为缓慢

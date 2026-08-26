@@ -1,0 +1,15 @@
+#lang sicp
+(define (cube a) (* a a a))
+(define (next-number-iter n b)
+        (cond ((= n 1) 1)
+              ((= n b) 1)
+              ((even? n) 2)
+              (else 4)))
+(define (sum-iter term a b n h count)
+        (if (> a b)
+            0
+            (+ (* (next-number-iter (+ count 1) n) (term a))
+               (sum-iter term (+ a h) b n h (+ count 1)))))
+(define (integral f a b n)
+        (* (/ (- b a) (* 3 n)) (sum-iter f a b n (/ (- b a) n) 1)))
+(exact->inexact(integral cube 0 1 100000))

@@ -1,0 +1,10 @@
+#lang sicp
+(define (identity x) x)
+(define (square x)(* x x))
+(define (repeated f times)
+        (lambda (x)
+                (define (iter count result)
+                        (cond ((= count 0) result)
+                              (else (iter (- count 1) (f result)))))
+                (iter times x)))
+((repeated square 2) 5)

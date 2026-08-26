@@ -1,0 +1,17 @@
+
+#lang sicp
+(define (cont-frac-iter n d k count out)
+        (define (f befor x y)
+                (/ x (+ y befor)))
+        (cond ((= count 0) out)
+              (else (let ((N_i/N_d (/ (n count) (d count)))
+                          (N_i (n count))
+                          (D_i (d count)))   
+                         (cond ((= count k) (cont-frac-iter n d k (- count 1) (* out N_i/N_d)))
+                               (else  (cont-frac-iter n d k (- count 1) (f out N_i D_i))))))))
+(define (next n)
+        (cond ((= n 1)1)
+              ((= n 2)2)
+              ((= (remainder (- n 2) 3)0) (+(* (/(- n 2)3)2)2))
+              (else 1)))
+(cont-frac-iter (lambda (i) 1.0) next 1000 1000 1)

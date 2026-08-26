@@ -1,0 +1,25 @@
+#lang sicp
+
+(define (square x) (* x x))
+(define (expmod base exp m)
+        (cond ((= exp 0) 1)
+              ((even? exp)
+               (remainder(square (expmod base (/ exp 2) m))m))
+              (else (remainder(* base(expmod base (- exp 1) m))m))))
+(define (fermat-test n)
+        (define (try-it a)
+                (= (expmod a n n) a))
+        (try-it (+ 1 (random (- n 1)))))
+(define (prime? n times)
+        (cond ((= times 0) #t)
+              ((fermat-test n) (prime? n (- times 1)))
+              (else #f)))
+
+(define (filtered-accumulate combiner null-value filter term a next b)
+        (if (> a b)
+            null-value
+            (combiner (if filter(a) (term a) null-value) (product term (next a) next b))))
+(define (next a)(+ a 1))
+(define (X1 a) a)
+(define (filtered-accumulate + 0 prime? X1 a next b))
+(define (filtered-accumulate * 1 prime? X1 a next b))
