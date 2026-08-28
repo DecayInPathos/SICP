@@ -1,2 +1,2 @@
 #lang sicp
-(cons nil 1)
+(car (car(cons 2 1)))
