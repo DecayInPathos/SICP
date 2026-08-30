@@ -8,6 +8,6 @@
   (if (null? s)
       (list nil)
       (let ((rest (subsets (cdr s))))
-        (append rest (map (lambda (a) (begin (append (list (car a)))(append nil)))  rest)))))
+        (append rest (map (lambda (a) (append (list (car s)) a))  rest)))))
 (subsets (list 1 3 4 ))
 
